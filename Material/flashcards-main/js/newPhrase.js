@@ -1,8 +1,8 @@
 (function(){
 /* ===========================
    newPhrase.js — Teaching flow with behaviour awareness
-   - Welsh → audio (normal/slow/normal)
-   - Meaning & breakdown → usage/related
+   - Welsh phrase
+   - Meaning & breakdown -> usage/related
    - Typing drill: 2× copy, 1× blind
    - Behaviour classifier: thinking / fast guess / idle
    - Idle doesn’t penalise; re-queue later in session
@@ -108,7 +108,6 @@ function makeBehaviourTracker(rootEl, { onNudge } = {}){
   let keyCount = 0;
   let backspaceCount = 0;
   let hints = 0;
-  let audioPlays = 0;
   let blurredMs = 0;
   let blurStart = 0;
   let paused = false;
@@ -119,7 +118,7 @@ function makeBehaviourTracker(rootEl, { onNudge } = {}){
   function begin(){
     startTs = now();
     typingMs = 0; lastKeyTs = 0; keyCount = 0; backspaceCount = 0;
-    hints = 0; audioPlays = 0; blurredMs = 0; blurStart = 0; paused = false;
+    hints = 0; blurredMs = 0; blurStart = 0; paused = false;
     clearTimeout(nudgeTimer);
     // soft nudge at 45s if still active and no submit yet
     nudgeTimer = setTimeout(()=>{ onNudge && onNudge(); }, THINK_MAX*1000);
@@ -135,7 +134,6 @@ function makeBehaviourTracker(rootEl, { onNudge } = {}){
   }
 
   function onHint(){ hints++; }
-  function onAudio(){ audioPlays++; }
 
   function onBlur(){
     blurStart = Date.now();
@@ -159,7 +157,6 @@ function makeBehaviourTracker(rootEl, { onNudge } = {}){
       keystrokes: keyCount,
       backspaceRatio: keyCount ? backspaceCount / keyCount : 0,
       hints,
-      audioPlays,
       blurredMs,
       paused
     };
@@ -180,7 +177,7 @@ function makeBehaviourTracker(rootEl, { onNudge } = {}){
     if (dwell > IDLE_NO_TYPE && typing < 2) return { kind: 'idle', meta: m };
 
     // Fast/guessy
-    if (dwell < THINK_MIN && typing < 2 && m.hints === 0 && m.audioPlays === 0)
+    if (dwell < THINK_MIN && typing < 2 && m.hints === 0)
       return { kind: 'fast', meta: m };
 
     // Deep thinking window
@@ -304,31 +301,6 @@ async function syncProgressToGitHub(deckId, prog){
     headers:{'Authorization':`Bearer ${token}`,'Content-Type':'application/json'},
     body:JSON.stringify({message:`Update ${path}`, content})
   }).catch(()=>{});
-}
-
-/* ---------- Audio helpers ---------- */
-let audioEl=null;
-function stopAudio(){
-  if(window.fcAudio) window.fcAudio.stop();
-  audioEl=null;
-}
-function playAudio(src,rate=1){
-  if(!src) return;
-  audioEl = window.fcAudio ? window.fcAudio.play(src,rate) : null;
-}
-function playOne(src,rate){
-  return new Promise(res=>{
-    if(!src) return res();
-    audioEl = window.fcAudio ? window.fcAudio.create(src,rate) : null;
-    if(!audioEl) return res();
-    audioEl.addEventListener('ended',res,{once:true});
-    audioEl.play().catch(()=>res());
-  });
-}
-async function playSequence(src, tracker){
-  await playOne(src,1.0); tracker && tracker.onAudio();
-  await playOne(src,0.6); tracker && tracker.onAudio();
-  await playOne(src,1.0); tracker && tracker.onAudio();
 }
 
 /* ---------- Steps ---------- */
@@ -474,7 +446,6 @@ function current(){ return queue[idx]; }
 
 /* ---------- Core renderer with behaviour tracking ---------- */
 function render(){
-  stopAudio();
   const c=current();
   if(!c){ renderEmpty(); return; }
 
@@ -484,34 +455,14 @@ function render(){
   });
   tracker.begin();
 
-  const img = c.image
-    ? `<div class="flashcard-image"><img src="${c.image}" alt="${escapeHTML(c.front)}" style="width:100%; border-radius:16px;" onerror="this.closest('.flashcard-image').remove();"></div>`
-    : '';
-
   if(step===STEPS.WELSH){
     viewEl.innerHTML=`
-      ${img}
       <div class="term" style="margin-top:8px;">${escapeHTML(c.front)}</div>
-      <div class="tm-audio" style="margin-top:6px;">
-        <button class="btn audio-btn" id="np-play" disabled>🔊 Play</button>
-        <button class="btn audio-btn" id="np-play-slow" style="margin-left:6px;" disabled>🐢 0.6×</button>
-      </div>
       <div class="flashcard-actions">
         <button class="btn nav-btn" id="np-next">Next</button>
       </div>
       <div class="flashcard-progress muted">Card ${idx+1} of ${queue.length}</div>`;
-    const playBtn=viewEl.querySelector('#np-play');
-    const slowBtn=viewEl.querySelector('#np-play-slow');
     const nextBtn=viewEl.querySelector('#np-next');
-
-    if(!c.audio){
-      const audioWrap = playBtn && playBtn.closest('.tm-audio');
-      if(audioWrap) audioWrap.remove();
-    }else{
-      playBtn.addEventListener('click',()=>{ playAudio(c.audio,1.0); tracker.onAudio(); });
-      slowBtn.addEventListener('click',()=>{ playAudio(c.audio,0.6); tracker.onAudio(); });
-      (async()=>{ await playSequence(c.audio, tracker); playBtn.disabled=false; slowBtn.disabled=false; })();
-    }
 
     nextBtn.addEventListener('click',()=>{
       step=STEPS.MEANING; render();
@@ -654,17 +605,8 @@ function render(){
         viewEl.innerHTML=`
           <div class="tm-result tm-correct">✓ Correct</div>
           <div class="term" style="margin-top:-6px;">${escapeHTML(c.front)}</div>
-          <div class="tm-audio" style="margin-top:6px;"><button class="btn audio-btn" id="np-play">🔊 Play</button></div>
           <div class="flashcard-actions"><button class="btn green" id="np-next">Next word</button></div>
           <div class="flashcard-progress muted">Next review: Tomorrow</div>`;
-        const finalPlay = viewEl.querySelector('#np-play');
-        if(c.audio && finalPlay){
-          playAudio(c.audio,1.0);
-          finalPlay.addEventListener('click',()=>playAudio(c.audio,1.0));
-        }else if(finalPlay){
-          const audioWrap = finalPlay.closest('.tm-audio');
-          if(audioWrap) audioWrap.remove();
-        }
         viewEl.querySelector('#np-next').addEventListener('click',nextCard);
         allMastered = computeAllMastered(dk, prog);
       } else {
@@ -693,7 +635,6 @@ function renderEmpty(){
   }
 }
 function nextCard(){
-  stopAudio();
   if(idx>=queue.length){ renderEmpty(); return; }
   step=STEPS.WELSH; render();
 }
@@ -709,10 +650,8 @@ function showIncorrect(userTyped,onRetry){
       <div class="tm-ansbox">${escapeHTML(userTyped||'—')}</div>
     </div>
     <div class="flashcard-actions" style="gap:8px;">
-      <button class="btn ghost" id="np-replay">🔊 Replay audio</button>
       <button class="btn red" id="np-retry">Try again</button>
     </div>`;
-  viewEl.querySelector('#np-replay').addEventListener('click',()=>playAudio(current().audio,1.0));
   viewEl.querySelector('#np-retry').addEventListener('click',onRetry);
 }
 function showHint(text){
@@ -777,7 +716,6 @@ style.textContent=`
   .tm-correct{ color:#3bd16f; }
   .tm-label{ font-size:12px; color: var(--muted); text-align:center; }
   .tm-ansbox{ border:1px dashed var(--border); border-radius:10px; padding:8px 10px; margin-top:4px; background:rgba(255,255,255,0.02); }
-  .tm-audio{ display:flex; justify-content:center; }
   .chip{ display:inline-block; border:1px solid var(--border); background:var(--panel); border-radius:999px; padding:4px 10px; font-size:12px; color:var(--text); margin:2px; }
   .np-hint{ font-size:13px; }
 `;

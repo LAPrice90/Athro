@@ -449,15 +449,12 @@ async function loadDeckRows(deckId){
       front: r.welsh || r.front || r.word || '',
       back: r.english || r.back || r.translation || '',
       tags: r.tags || '',
-      image: r.image || '',
-      audio: r.audio || '',
       phonetic: r.pronunciation || r.phonetic || '',
       example: r.example || '',
       usage_note: r.usage_note || r.use || '',
       word_breakdown: r.word_breakdown || r.grammar_notes || '',
       pattern_examples: r.pattern_examples || '',
-      pattern_examples_en: r.pattern_examples_en || '',
-      slow_audio: r.slow_audio || ''
+      pattern_examples_en: r.pattern_examples_en || ''
     }))
     .filter(r => r.id && r.front && r.back);
 

@@ -138,7 +138,6 @@ async function renderReview(query) {
     if (i >= 0) idx = i;
   }
   let showBack = false;   // front(Welsh) → back(English) in flash mode
-  let slowNext = false;   // audio alternator
   let isExpanded = false; // details panel state
   let isAnimating = false; // slide debounce
 
@@ -153,11 +152,8 @@ async function renderReview(query) {
         <div class="flashcard" id="flashcard">
         <div class="fc-stage fc-edge-hint" id="fcStage">
 
-        <div class="flashcard-image" id="fcImg"></div>
-
         <div class="fc-phrase">
           <div class="term" id="fcTerm" title="Tap to flip"></div>
-          <button class="btn audio-btn play-btn" id="audioBtn" title="Play (alternates fast/slow)">🔊 Play</button>
         </div>
 
         <div class="fc-details" id="fcDetails" hidden tabindex="-1">
@@ -184,7 +180,6 @@ async function renderReview(query) {
 
   const root       = wrap.querySelector('#flashcard');
   const stageEl    = wrap.querySelector('#fcStage');
-  const imgEl      = wrap.querySelector('#fcImg');
   const termEl     = wrap.querySelector('#fcTerm');
   const phonEl     = wrap.querySelector('#fcPhon');
   const transEl    = wrap.querySelector('#fcTrans');
@@ -196,7 +191,6 @@ async function renderReview(query) {
   const expandBtn  = wrap.querySelector('#detailToggle');
   const prevBtn    = wrap.querySelector('#prevBtn');
   const nextBtn    = wrap.querySelector('#nextBtn');
-  const audioBtn   = wrap.querySelector('#audioBtn');
   const progEl     = wrap.querySelector('#fcProg');
 
   // expand/collapse details
@@ -237,18 +231,6 @@ async function renderReview(query) {
     if (now) detailsEl.focus();
   });
 
-  // audio helpers
-  function stopAudio() {
-    if (window.fcAudio) window.fcAudio.stop();
-  }
-  function playAudio(src) {
-    if (!src) return;
-    stopAudio();
-    const rate = slowNext ? 0.6 : 1.0; // alternate fast/slow
-    if (window.fcAudio) window.fcAudio.play(src, rate);
-    slowNext = !slowNext;
-  }
-
   // parsing helpers
   const parsePairs = s => (s ? s.split(',').map(x => x.trim()).filter(Boolean) : []);
   const parsePatterns = s => {
@@ -263,21 +245,6 @@ async function renderReview(query) {
   function renderCard() {
     const c = cards[idx];
     const expand = !!expanded[c.id];
-
-    // image
-    imgEl.innerHTML = c.image
-      ? `<img src="${c.image}" alt="${c.front}">`
-      : '';
-    const img = imgEl.querySelector('img');
-    if(img){
-      img.onerror = () => {
-        imgEl.innerHTML = '';
-        imgEl.hidden = true;
-      };
-      imgEl.hidden = false;
-    }else{
-      imgEl.hidden = true;
-    }
 
     // phrase
     termEl.textContent = showBack ? c.back : c.front;
@@ -359,8 +326,6 @@ async function renderReview(query) {
 
     // progress
     progEl.textContent = `Card ${idx + 1} of ${cards.length}`;
-    audioBtn.hidden = !c.audio;
-    audioBtn.disabled = !c.audio;
 
     // click-to-flip behaviour
     termEl.style.cursor = 'pointer';
@@ -371,8 +336,6 @@ async function renderReview(query) {
   function navigate(dir, fromSwipe){
     if (isAnimating && !fromSwipe) return;
     isAnimating = true;
-    const hadPlayFocus = document.activeElement === audioBtn;
-    stopAudio();
 
     const update = () => {
       idx = (idx + (dir === 1 ? 1 : -1) + cards.length) % cards.length;
@@ -387,10 +350,6 @@ async function renderReview(query) {
         stageEl.addEventListener('transitionend', () => {
           stageEl.style.transition = '';
           isAnimating = false;
-          if (hadPlayFocus) audioBtn.focus();
-          slowNext = false;
-          const c = cards[idx];
-          if (c.audio) playAudio(c.audio);
         }, { once: true });
       });
     };
@@ -411,20 +370,8 @@ async function renderReview(query) {
 
   // initial render
   renderCard();
-  // autoplay new card at normal speed
-  slowNext = false;
-  const first = cards[idx];
-  if (first.audio) playAudio(first.audio);
 
   // interactions
-  imgEl.addEventListener('click', () => {
-    const c = cards[idx];
-    if (c.audio) playAudio(c.audio);
-  });
-  audioBtn.addEventListener('click', () => {
-    const c = cards[idx];
-    if (c.audio) playAudio(c.audio);
-  });
   termEl.addEventListener('click', () => {
     showBack = !showBack;
     renderCard();
@@ -437,7 +384,7 @@ async function renderReview(query) {
   function onPointerDown(e){
     if (isAnimating || isExpanded) return;
     if (e.pointerType === 'mouse') return;
-    if (e.target.closest('#audioBtn') || e.target.closest('#detailToggle')) return;
+    if (e.target.closest('#detailToggle')) return;
     startX = e.clientX; startY = e.clientY; startT = Date.now(); swiping = false;
     stageEl.addEventListener('pointermove', onPointerMove, { passive: true });
     stageEl.addEventListener('pointerup', onPointerUp);
@@ -501,7 +448,6 @@ async function renderReview(query) {
   window.onkeydown = (e) => {
     if (e.key === 'ArrowRight' || e.key === 'Enter') { e.preventDefault(); goNext(); }
     if (e.key === 'ArrowLeft') { e.preventDefault(); goPrev(); }
-    if (e.key?.toLowerCase() === 'a') { e.preventDefault(); audioBtn.click(); }
     if (e.key?.toLowerCase() === 'f') { e.preventDefault(); termEl.click(); }
   };
 

@@ -100,12 +100,12 @@
 
   /* ---------- Behaviour tracker (per card) ---------- */
   function makeBehaviourTracker() {
-    let start=0, typingMs=0, lastKey=0, keystrokes=0, backspaces=0, hints=0, audio=0, blurredMs=0, blurStart=0;
+    let start=0, typingMs=0, lastKey=0, keystrokes=0, backspaces=0, hints=0, blurredMs=0, blurStart=0;
     let nudgeTimer=null;
 
     function now(){ return performance.now(); }
     function begin(){
-      start = now(); typingMs=0; lastKey=0; keystrokes=0; backspaces=0; hints=0; audio=0; blurredMs=0; blurStart=0;
+      start = now(); typingMs=0; lastKey=0; keystrokes=0; backspaces=0; hints=0; blurredMs=0; blurStart=0;
       clearTimeout(nudgeTimer);
       nudgeTimer = setTimeout(()=>{ showNudge(); }, THINK_MAX_S*1000);
     }
@@ -127,7 +127,6 @@
         keystrokes,
         backspaceRatio: keystrokes ? backspaces/keystrokes : 0,
         hints,
-        audioPlays: audio,
         blurredMs
       };
     }

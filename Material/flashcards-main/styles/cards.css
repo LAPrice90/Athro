@@ -60,18 +60,9 @@
   .fc-expand-btn:hover,.fc-expand-btn:active{ background:#F6FAF8; color:#1C8E4A; }
   .fc-expand-btn:focus{ outline:2px solid #CFEEDA; outline-offset:2px; }
 
-/* Image */
-.flashcard-image {
-  width: 100%; aspect-ratio: 1 / 1;
-  background: transparent; border: 1px solid var(--border); border-radius: 12px;
-  overflow: hidden; display: grid; place-items: center;
-}
-.flashcard-image img { display: block; max-width: 100%; max-height: 100%; object-fit: contain; }
-
 /* Phrase row */
-.fc-phrase { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 10px; }
+.fc-phrase { display: grid; grid-template-columns: 1fr; align-items: center; gap: 10px; }
 .term { text-align: center; font-size: 28px; font-weight: 800; color: var(--text); }
-.audio-btn { min-width: 88px; }
   .phonetic { grid-column: 1 / -1; text-align: center; font-size: 13px; color: var(--muted); }
   .fc-details{ overflow:hidden; max-height:0; opacity:0; transition:max-height .26s ease, opacity .26s ease; }
 
