@@ -3,47 +3,56 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Current Athro Welsh listening task">
-  <title>Athro - Current Listening</title>
+  <meta name="description" content="Athro current listening task">
+  <title>Athro - Listening</title>
   <link rel="stylesheet" href="styles/athro-sample.css">
 </head>
 <body>
-  <header class="topbar">
+  <header class="site-header">
     <a class="brand" href="index.html" aria-label="Athro home">
       <img src="Material/flashcards-main/media/image/welshflag.png" alt="">
       <span>Athro</span>
     </a>
-    <nav aria-label="Primary">
-      <a href="index.html">Home</a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="index.html">Today</a>
       <a href="Material/flashcards-main/index.html">Flashcards</a>
+      <a href="Material/flashcards-main/index.html#/settings">Backup</a>
     </nav>
   </header>
 
   <main>
-    <section class="listen-layout">
+    <section class="listen-hero" aria-labelledby="listen-title">
       <div class="listen-copy">
         <p class="eyebrow">Current Listening</p>
-        <h1>Unit 1 audio</h1>
-        <p>
-          Use the current unit audio for repeated listening. The course MP3 is not hosted on this public website.
-        </p>
+        <h1 id="listen-title">Unit 1 audio</h1>
+        <p class="lead">Use the active unit audio for repeated listening. Course MP3s stay in private Drive storage, not on the public website.</p>
       </div>
 
-      <div class="lesson-panel">
+      <aside class="listen-panel" aria-label="Unit 1 listening">
         <div class="panel-header">
           <span>Mynediad De</span>
           <strong>14:50</strong>
         </div>
-        <div class="phrase">Uned 1</div>
-        <div class="translation">Helo, sut dych chi?</div>
+        <dl class="detail-list">
+          <div>
+            <dt>Unit</dt>
+            <dd>1</dd>
+          </div>
+          <div>
+            <dt>Focus</dt>
+            <dd>Greetings and introductions</dd>
+          </div>
+          <div>
+            <dt>Stage</dt>
+            <dd>Preview and repeat</dd>
+          </div>
+        </dl>
         <div class="actions compact-actions">
-          <a class="button primary" href="https://drive.google.com/drive/search?q=Mynediad%20De%20Uned%201%20-%202021.mp3">Open In Google Drive</a>
+          <a class="button primary" href="https://drive.google.com/drive/search?q=Mynediad%20De%20Uned%201%20-%202021.mp3" rel="noopener">Open In Google Drive</a>
           <a class="button secondary" href="Material/flashcards-main/index.html">Open Flashcards</a>
         </div>
-        <p class="small-note">
-          If Drive search does not find the file on your phone, create a private Drive link for the MP3 and add it to the listening system.
-        </p>
-      </div>
+        <p class="small-note">If Drive search does not find the file on your phone, add the private file link to the listening system and keep this button pointed at Drive.</p>
+      </aside>
     </section>
   </main>
 </body>

@@ -84,8 +84,8 @@ body { background: var(--bg); color: var(--text); }
   align-items:center;
   justify-content:center;
 }
-.brand.siarad{ font-weight: 800; letter-spacing:.2px; color: var(--welsh-red); }
-.brand.siarad img{ height:48px; }
+.brand.athro{ font-weight: 800; letter-spacing:.2px; color: var(--welsh-red); }
+.brand.athro img{ height:48px; }
 .nav-horizontal{ display:flex; gap:24px; }
 .nav-horizontal a{
   display:inline-flex; align-items:center; justify-content:center; gap:8px;
@@ -103,18 +103,6 @@ body { background: var(--bg); color: var(--text); }
 }
 .nav-horizontal a.active:hover,
 .nav-horizontal a.active:focus-visible{ transform:translateY(-1px); }
-.auth-box{ display:flex; align-items:center; }
-.auth-btn{
-  background:#C8102E; color:#fff;
-  border:none; border-radius:9999px;
-  height:40px; padding:0 16px;
-  font-weight:700;
-  box-shadow:0 2px 6px rgba(0,0,0,.12);
-  transition:background .18s ease, transform .18s ease;
-}
-.auth-btn:hover{ background:#B30E28; }
-.auth-btn:active{ transform:scale(.98); }
-.auth-btn:focus-visible{ outline:2px solid #CFEEDA; outline-offset:2px; }
 .deck-select{
   background: var(--panel); color: var(--text);
   border:none; border-radius:10px; padding:4px 10px;
@@ -232,7 +220,7 @@ body { background: #ffffff !important; color: #0f1117 !important; }
 .side { border-right: 1px solid var(--border); padding: 18px; }
 
 .brand { font-weight: 800; letter-spacing: .2px; font-size: 20px; margin-bottom: 12px; }
-.brand.siarad{ color: var(--welsh-red); }
+.brand.athro{ color: var(--welsh-red); }
 
 /* IMPORTANT: scope .nav to the sidebar so it DOESN'T affect the top navbar */
 .side .nav { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; }

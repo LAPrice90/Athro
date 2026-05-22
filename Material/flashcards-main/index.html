@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Welsh flashcards for learning phrases" />
-  <title>Siarad</title>
+  <meta name="description" content="Athro Welsh flashcards for learning phrases" />
+  <title>Athro</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,7 +18,7 @@
   <!-- Desktop navbar -->
   <header class="navbar" role="banner">
     <div class="nav-left">
-      <a href="#/home" class="brand siarad"><img src="media/image/welshflag.png" alt="Siarad logo"></a>
+      <a href="#/home" class="brand athro"><img src="media/image/welshflag.png" alt="Athro logo"></a>
       <select id="deckSelectTop" class="deck-select" aria-label="Switch deck"></select>
       <nav class="nav nav-horizontal" aria-label="Primary">
         <a href="#/home" data-route="home">Dashboard</a>
@@ -30,9 +30,6 @@
     </div>
     <div class="nav-right">
       <div id="dayDisplay" class="day-display"></div>
-      <div class="auth-box">
-        <button class="auth-btn btn" onclick="signInWithGoogle()">Login with Google</button>
-      </div>
     </div>
   </header>
 
@@ -43,18 +40,18 @@
       <span></span>
       <span></span>
     </button>
-    <a href="#/home"><img src="media/image/welshflag.png" alt="Siarad logo" class="topbar-logo"></a>
+    <a href="#/home"><img src="media/image/welshflag.png" alt="Athro logo" class="topbar-logo"></a>
   </header>
 
   <!-- Brand bar -->
   <div class="brand-bar">
-    <a href="#/home" aria-label="Siarad Home" class="brand-link">
+    <a href="#/home" aria-label="Athro Home" class="brand-link">
       <svg width="36" height="36" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <circle cx="18" cy="18" r="18" fill="#C8102E" />
         <rect x="7" y="8" width="22" height="15" rx="7" fill="#ffffff" />
         <path d="M23 20 L29 24 L23 24 Z" fill="#ffffff" />
       </svg>
-      <span class="brand-name">Siarad</span>
+      <span class="brand-name">Athro</span>
     </a>
   </div>
 
@@ -62,7 +59,7 @@
     <!-- Sidebar (mobile drawer only) -->
     <aside class="side">
       <div class="side-controls">
-        <img src="media/image/welshflag.png" alt="Siarad logo" class="side-logo">
+        <img src="media/image/welshflag.png" alt="Athro logo" class="side-logo">
         <select id="deckSelect" class="deck-select" aria-label="Switch deck"></select>
         <div class="status-pills">
           <span class="status-pill gold" id="newDisplay">0 new</span>
@@ -76,12 +73,6 @@
         <a href="#/decks" data-route="decks">Custom Phrases</a>
         <a href="#/settings" data-route="settings">Settings</a>
       </nav>
-      <div class="side-footer">
-        <div class="auth-box">
-          <div class="auth-status muted"></div>
-          <button class="auth-btn btn" onclick="signInWithGoogle()">Login with Google</button>
-        </div>
-      </div>
     </aside>
 
     <!-- Main view -->
@@ -100,6 +91,5 @@
   <script src="js/newPhrase.js" defer></script>
   <script src="js/study.js" defer></script>
   <script src="js/testMode.js" defer></script>
-  <script type="module" src="js/firebase.js"></script>
 </body>
 </html>

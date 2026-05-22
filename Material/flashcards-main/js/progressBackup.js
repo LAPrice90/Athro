@@ -1,7 +1,8 @@
 (function(global) {
   'use strict';
 
-  const APP_NAME = 'siarad';
+  const APP_NAME = 'athro';
+  const LEGACY_APP_NAMES = new Set(['siarad']);
   const BACKUP_VERSION = '1';
   const MAX_IMPORT_BYTES = 1024 * 1024;
   const LAST_EXPORT_KEY = 'fc_backup_last_export_at';
@@ -78,15 +79,19 @@
   }
 
   function backupFilename(now = new Date()) {
-    return `siarad-progress-${getLocalISODate(now)}.json`;
+    return `athro-progress-${getLocalISODate(now)}.json`;
+  }
+
+  function isAcceptedAppName(appName) {
+    return appName === APP_NAME || LEGACY_APP_NAMES.has(appName);
   }
 
   function validateBackupObject(data) {
     if (!data || typeof data !== 'object' || Array.isArray(data)) {
       throw new Error('Backup must be a JSON object.');
     }
-    if (data.app !== APP_NAME) {
-      throw new Error('This is not a Siarad progress backup.');
+    if (!isAcceptedAppName(data.app)) {
+      throw new Error('This is not an Athro progress backup.');
     }
     if (data.version !== BACKUP_VERSION) {
       throw new Error('This backup version is not supported.');
@@ -274,6 +279,7 @@
     APP_NAME,
     BACKUP_VERSION,
     MAX_IMPORT_BYTES,
+    backupFilename,
     isSupportedKey,
     collectItems,
     createBackup,

@@ -87,11 +87,16 @@ assert('createBackup wraps collected progress with schema fields', () => {
     now: new Date('2026-05-22T10:00:00Z'),
     sourceUrl: 'https://example.test/app'
   });
-  if (data.app !== 'siarad') throw new Error('wrong app');
+  if (data.app !== 'athro') throw new Error('wrong app');
   if (data.version !== '1') throw new Error('wrong version');
   if (data.exportedAt !== '2026-05-22T10:00:00.000Z') throw new Error('wrong exportedAt');
   if (data.sourceUrl !== 'https://example.test/app') throw new Error('wrong sourceUrl');
   if (!data.items.progress_welsh_homework) throw new Error('missing item');
+});
+
+assert('backupFilename uses Athro export naming', () => {
+  const name = backup.backupFilename(new Date('2026-05-22T10:00:00Z'));
+  if (name !== 'athro-progress-2026-05-22.json') throw new Error('wrong backup filename');
 });
 
 assertThrows('parseBackupText rejects invalid JSON', () => {
@@ -100,14 +105,14 @@ assertThrows('parseBackupText rejects invalid JSON', () => {
 
 assertThrows('parseBackupText rejects wrong app name', () => {
   backup.parseBackupText(JSON.stringify({ app: 'other', version: '1', items: {} }));
-}, 'not a Siarad');
+}, 'not an Athro');
 
 assertThrows('parseBackupText rejects unsupported version', () => {
-  backup.parseBackupText(JSON.stringify({ app: 'siarad', version: '2', items: {} }));
+  backup.parseBackupText(JSON.stringify({ app: 'athro', version: '2', items: {} }));
 }, 'version');
 
 assertThrows('parseBackupText rejects missing items', () => {
-  backup.parseBackupText(JSON.stringify({ app: 'siarad', version: '1' }));
+  backup.parseBackupText(JSON.stringify({ app: 'athro', version: '1' }));
 }, 'missing progress items');
 
 assertThrows('parseBackupText rejects oversized files', () => {
@@ -116,11 +121,24 @@ assertThrows('parseBackupText rejects oversized files', () => {
 
 assertThrows('parseBackupText rejects unsupported keys', () => {
   backup.parseBackupText(JSON.stringify({
-    app: 'siarad',
+    app: 'athro',
     version: '1',
     items: { random_setting: 'bad' }
   }));
 }, 'unsupported key');
+
+assert('parseBackupText accepts legacy app backups', () => {
+  const data = backup.parseBackupText(JSON.stringify({
+    app: 'siarad',
+    version: '1',
+    exportedAt: '2026-05-22T10:00:00.000Z',
+    sourceUrl: 'https://example.test/app',
+    items: {
+      progress_welsh_homework: '{"seen":{}}'
+    }
+  }));
+  if (data.app !== 'siarad') throw new Error('legacy backup not accepted');
+});
 
 assert('restoreBackup replaces supported keys and preserves unrelated storage', () => {
   const storage = makeStorage({

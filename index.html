@@ -3,88 +3,75 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Athro Welsh learning workspace sample page">
-  <title>Athro - Welsh Learning Workspace</title>
+  <meta name="description" content="Athro Welsh learning system">
+  <title>Athro</title>
   <link rel="stylesheet" href="styles/athro-sample.css">
 </head>
 <body>
-  <header class="topbar">
+  <header class="site-header">
     <a class="brand" href="index.html" aria-label="Athro home">
       <img src="Material/flashcards-main/media/image/welshflag.png" alt="">
       <span>Athro</span>
     </a>
-    <nav aria-label="Primary">
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#today">Today</a>
       <a href="Material/flashcards-main/index.html">Flashcards</a>
-      <a href="listen.html">Listen</a>
+      <a href="listen.html">Listening</a>
+      <a href="Material/flashcards-main/index.html#/settings">Backup</a>
     </nav>
   </header>
 
   <main>
-    <section class="hero">
-      <div class="hero-copy">
-        <p class="eyebrow">South Wales Welsh - Entry Level</p>
-        <h1>A clear practice space for Welsh lessons.</h1>
-        <p>
-          Athro keeps the teaching chat, homework cards, listening tasks, and reference shelves working together without turning the folder into a mess.
-        </p>
-        <div class="actions">
-          <a class="button primary" href="Material/flashcards-main/index.html">Open Homework Deck</a>
-          <a class="button secondary" href="listen.html">Open Current Listening</a>
+    <section class="hub-hero" aria-labelledby="hub-title">
+      <div class="hub-copy">
+        <p class="eyebrow">South Wales Welsh - Entry</p>
+        <h1 id="hub-title">Athro</h1>
+        <p class="lead">Start today's Welsh work from one place.</p>
+        <div class="actions" aria-label="Main actions">
+          <a class="button primary" href="Material/flashcards-main/index.html">Open Flashcards</a>
+          <a class="button secondary" href="listen.html">Current Listening</a>
+          <a class="button secondary" href="Material/flashcards-main/index.html#/settings">Backup Settings</a>
         </div>
       </div>
-      <div class="lesson-panel" aria-label="Sample lesson status">
+
+      <aside class="today-panel" id="today" aria-label="Today">
         <div class="panel-header">
-          <span>Current Sample</span>
+          <span>Today</span>
           <strong>Unit 1</strong>
         </div>
-        <div class="phrase">Helo, Luke dw i.</div>
-        <div class="translation">Hello, I'm Luke.</div>
-        <div class="mini-grid">
-          <div>
-            <span>Pattern</span>
-            <strong>...dw i</strong>
-          </div>
-          <div>
-            <span>Homework</span>
-            <strong>8 cards</strong>
-          </div>
-          <div>
+        <ol class="task-list">
+          <li>
+            <span>Cards</span>
+            <a href="Material/flashcards-main/index.html">Homework deck</a>
+          </li>
+          <li>
             <span>Audio</span>
-            <strong>Mynediad De</strong>
-          </div>
-        </div>
-      </div>
+            <a href="listen.html">Unit 1 listening</a>
+          </li>
+          <li>
+            <span>Progress</span>
+            <a href="Material/flashcards-main/index.html#/settings">Export or import backup</a>
+          </li>
+        </ol>
+      </aside>
     </section>
 
-    <section class="workflow" aria-label="Learning workflow">
-      <article>
-        <img src="Material/flashcards-main/media/icons/Conversations.png" alt="">
-        <h2>Learn In Chat</h2>
-        <p>The teacher explains one small pattern, asks you to try it, then checks whether you can use it without copying.</p>
-      </article>
-      <article>
+    <section class="system-grid" aria-label="Athro tools">
+      <a class="system-card" href="Material/flashcards-main/index.html">
         <img src="Material/flashcards-main/media/icons/Flashcards.png" alt="">
-        <h2>Practice At Home</h2>
-        <p>The teacher exports a small homework deck so the same phrases come back as cards later.</p>
-      </article>
-      <article>
+        <h2>Flashcards</h2>
+        <p>Review the current homework deck and learned phrases.</p>
+      </a>
+      <a class="system-card" href="listen.html">
         <img src="Material/flashcards-main/media/icons/Play All.png" alt="">
-        <h2>Listen By Unit</h2>
-        <p>The audiobook files are indexed by unit, so listening is assigned when it matches the lesson.</p>
-      </article>
-    </section>
-
-    <section class="shelves">
-      <div>
-        <p class="eyebrow">Reference Shelves</p>
-        <h2>Use what is relevant now.</h2>
-      </div>
-      <ol>
-        <li><strong>Entry</strong><span>Active - South Wales</span></li>
-        <li><strong>Foundation</strong><span>Ask before expanding</span></li>
-        <li><strong>Intermediate</strong><span>Ask before expanding</span></li>
-        <li><strong>Advanced</strong><span>Ask before expanding</span></li>
-      </ol>
+        <h2>Listening</h2>
+        <p>Open the current unit audio task for phone practice.</p>
+      </a>
+      <a class="system-card" href="Material/flashcards-main/index.html#/settings">
+        <img src="Material/flashcards-main/media/icons/Challenges.png" alt="">
+        <h2>Backup</h2>
+        <p>Export or restore progress from the flashcard settings screen.</p>
+      </a>
     </section>
   </main>
 </body>
