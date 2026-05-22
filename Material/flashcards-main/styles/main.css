@@ -699,6 +699,25 @@ body { background: #ffffff !important; color: #0f1117 !important; }
   color: #fff;
 }
 
+.progress-backup-card {
+  max-width: 860px;
+}
+
+.progress-backup-panel {
+  display: grid;
+  gap: 12px;
+}
+
+.progress-backup-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.backup-status {
+  line-height: 1.5;
+}
+
 @media (max-width: 640px) {
   .work-item {
     grid-template-columns: 1fr;
@@ -709,6 +728,10 @@ body { background: #ffffff !important; color: #0f1117 !important; }
   }
 
   .work-item-actions .btn {
+    flex: 1;
+  }
+
+  .progress-backup-actions .btn {
     flex: 1;
   }
 }

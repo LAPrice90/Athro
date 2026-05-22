@@ -618,6 +618,23 @@ function renderSettings(){
   chk.checked = SETTINGS.graceMode;
   chk.addEventListener('change', e => setGraceMode(e.target.checked));
   wrap.appendChild(optCard);
+
+  const sub3 = document.createElement('h2');
+  sub3.className = 'h2';
+  sub3.textContent = 'Progress Backup';
+  wrap.appendChild(sub3);
+
+  const backupCard = document.createElement('div');
+  backupCard.className = 'card progress-backup-card';
+  if (window.FC_PROGRESS_BACKUP && typeof window.FC_PROGRESS_BACKUP.buildSettingsPanel === 'function') {
+    backupCard.appendChild(window.FC_PROGRESS_BACKUP.buildSettingsPanel({
+      decks: DECKS,
+      loadProgress
+    }));
+  } else {
+    backupCard.innerHTML = '<div class="muted">Progress backup is unavailable.</div>';
+  }
+  wrap.appendChild(backupCard);
   return wrap;
 }
 
