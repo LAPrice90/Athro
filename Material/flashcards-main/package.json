@@ -1,0 +1,10 @@
+{
+  "name": "flashcards",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "test": "node tests/answerTolerance.spec.js && node tests/interval.spec.js && node tests/dueDate.spec.js && node tests/srs.spec.js && node tests/srs.due.spec.js && node tests/srs.life.spec.js",
+    "test:interval": "node tests/interval.spec.js",
+    "test:due": "node tests/dueDate.spec.js"
+  }
+}

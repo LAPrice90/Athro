@@ -1,0 +1,48 @@
+{
+  "date": "2026-05-22",
+  "generated_at": "2026-05-22T12:12:00",
+  "scenario": "flashcard_homework",
+  "scenario_reason": "Public phone practice page for current Unit 1 homework.",
+  "current_unit": 1,
+  "dialect": "South Wales",
+  "course": "Mynediad - Entry A1",
+  "signals": {
+    "current_unit": 1,
+    "homework_card_count": 8,
+    "unit_listening_duration": "14:50",
+    "unit_phone_access_status": "drive_search_fallback"
+  },
+  "tasks": [
+    {
+      "id": "homework-cards",
+      "type": "Cards",
+      "title": "Unit 1 homework cards",
+      "detail": "Practice the 8 starting-conversation cards.",
+      "route": "#/newPhrase",
+      "deck": "welsh_homework",
+      "count": 8,
+      "required": true,
+      "status": "planned"
+    },
+    {
+      "id": "listening-unit-1",
+      "type": "Listening",
+      "title": "Unit 1 audio",
+      "detail": "Preview listen for sound and rhythm. Use the Drive button on the listening page.",
+      "route": "#/worklist",
+      "count": 1,
+      "required": true,
+      "status": "planned"
+    },
+    {
+      "id": "review",
+      "type": "Review",
+      "title": "Warm-up review",
+      "detail": "Review due cards if any are waiting.",
+      "route": "#/test",
+      "count": 1,
+      "required": false,
+      "status": "planned"
+    }
+  ]
+}

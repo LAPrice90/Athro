@@ -1,0 +1,40 @@
+# Local backups and machine state
+_backups/
+*.log
+Thumbs.db
+.DS_Store
+
+# Dependencies and build output
+node_modules/
+dist/
+build/
+.vite/
+__pycache__/
+*.pyc
+
+# Private source learning material
+Mynediad De/
+*.mp3
+*.m4a
+Material/*
+!Material/flashcards-main/
+!Material/flashcards-main/**
+Material/flashcards-main/media/audio/
+Material/flashcards-main/js/firebaseConfig.js
+Material/flashcards-main/**/*.mp3
+Material/flashcards-main/**/*.m4a
+Material/**/*.pdf
+Material/**/*.docx
+Material/**/*.mp3
+
+# Generated or personal learning state
+learning_brain/materials/
+learning_brain/memory/*.sqlite
+learning_brain/tracking/
+learning_brain/logs/
+learning_brain/homework/listening/listening_log.md
+learning_brain/homework/listening/listening_state.json
+learning_brain/homework/listening/current_unit_phone.html
+learning_brain/homework/listening/current_unit_phone.json
+learning_brain/sessions/daily/*.md
+!learning_brain/sessions/daily/template.md

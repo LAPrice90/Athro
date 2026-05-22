@@ -1,0 +1,116 @@
+/* Duolingo-like dashboard */
+.duo-layout{
+  display:grid; grid-template-columns: 1fr 510px; gap:24px; align-items:start;
+}
+@media (max-width: 920px){ .duo-layout{ grid-template-columns: 1fr; } }
+
+.skills-grid{
+  display:grid;
+  justify-content:center;
+}
+.skills-grid.grid-3{
+  grid-template-columns: repeat(3,160px);
+  gap:28px; align-items:start;
+}
+.skills-grid.grid-2{
+  grid-template-columns: repeat(2,160px);
+  gap:16px; align-items:start;
+}
+
+@media (max-width: 600px){
+  .skills-grid.grid-3,
+  .skills-grid.grid-2{
+    grid-template-columns: 160px;
+  }
+}
+
+.skills-wrap{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height: calc(100vh - 200px);
+}
+
+.stat-card{ text-align:center; }
+
+.skill{ text-align:center; text-decoration:none; color:inherit; user-select:none; }
+.skill .bubble{
+  width: 160px; aspect-ratio: 1; border-radius: 50%;
+  background:#fff; border:2px solid var(--border); box-shadow: var(--shadow);
+  display:grid; place-items:center; margin:0 auto; position:relative;
+}
+.skill .emoji{ font-size:52px; line-height:1; }
+.skill .icon{ width:100%; height:100%; object-fit:contain; }
+.skill .badge{
+  position:absolute; top:-6px; right:-6px;
+  min-width: 20px; height:20px; padding:0 6px;
+  border-radius: 999px; display:grid; place-items:center;
+  background: var(--welsh-green); color:#fff; font-weight:800; font-size:9px;
+  box-shadow: 0 8px 22px rgba(0,0,0,.15);
+}
+.skill .badge.restricted{
+  background:#C8102E;
+  color:#fff;
+}
+.skill .label{ margin-top:10px; font-weight:800; }
+.skill .sub{ font-size:12px; color:var(--muted); }
+
+.skill:hover .bubble{ border-color: var(--welsh-red); transform: translateY(-1px); transition: transform .12s ease; }
+
+.tabs{ display:flex; gap:12px; }
+.tabs .tab{ text-align:center; text-decoration:none; color:inherit; }
+.tabs .bubble{
+  width:60px; aspect-ratio:1; border-radius:50%;
+  background:#fff; border:2px solid var(--border); display:grid; place-items:center;
+}
+.tabs .tab.active .bubble{ border-color: var(--welsh-red); }
+.tabs .icon{ width:70%; height:70%; object-fit:contain; }
+.tabs .label{ margin-top:6px; font-size:12px; font-weight:700; }
+
+.duo-cta{ margin-top: 16px; display:flex; gap:12px; }
+.duo-cta .btn.primary{ background: var(--welsh-red); color:#fff; border-color: var(--welsh-red); }
+.duo-cta .btn.primary:hover{ filter: saturate(1.08); }
+
+/* Right sidebar */
+.sidebar{ display:grid; gap:16px; }
+.panel-white{
+  background:#fff; border:1px solid var(--welsh-green); border-radius:16px;
+  padding:16px; box-shadow: var(--shadow);
+}
+.panel-title{ font-weight:800; margin-bottom:8px; }
+
+.ring{
+  --pct: 0%;
+  width: 140px; aspect-ratio: 1; border-radius: 50%;
+  background: conic-gradient(var(--welsh-green) var(--pct), #eef1f5 0);
+  display:grid; place-items:center; margin: 6px auto 10px; font-weight:800;
+}
+
+.list{ display:grid; gap:6px; font-size:14px; }
+.list .k{ color: var(--muted); }
+.list .v{ font-weight:700; }
+
+.progress{
+  height: 12px; border-radius: 999px; background:#eef1f5; overflow:hidden;
+  box-shadow: inset 0 1px 0 rgba(0,0,0,.04);
+}
+.progress > i{ display:block; height:100%; width: var(--w, 0%); background: var(--welsh-red); }
+
+/* Learned phrases table */
+.phrase-table{ width:100%; border-collapse:collapse; margin-top:16px; font-size:14px; }
+.phrase-table th, .phrase-table td{ padding:8px 10px; border-bottom:1px solid var(--border); text-align:left; word-break:break-word; }
+.phrase-table th{ background: var(--panel-2); font-weight:700; }
+.phrase-table td.actions{ display:flex; gap:6px; }
+
+/* Stack table rows on small screens so content fits within width */
+@media (max-width: 600px){
+  .phrase-table thead{ display:none; }
+  .phrase-table tr{ display:block; border:1px solid var(--border); border-radius:8px; margin-bottom:12px; }
+  .phrase-table td{ display:block; border:none; padding:8px 10px; }
+  .phrase-table td + td{ border-top:1px solid var(--border); }
+  .phrase-table td::before{ content: attr(data-label); display:block; font-weight:700; color:var(--muted); margin-bottom:4px; }
+  .phrase-table td.actions{ display:flex; gap:6px; }
+}
+
+/* Filter bar for learned phrases */
+.filter-bar{ margin:12px 0; }

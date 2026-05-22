@@ -1,0 +1,23 @@
+/* Sidebar (mobile drawer only) */
+.side { border-right: 1px solid var(--border); padding: 18px; }
+
+.brand { font-weight: 800; letter-spacing: .2px; font-size: 20px; margin-bottom: 12px; }
+.brand.siarad{ color: var(--welsh-red); }
+
+/* IMPORTANT: scope .nav to the sidebar so it DOESN'T affect the top navbar */
+.side .nav { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; }
+.side .nav a {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px; border-radius: 12px; border: 1px solid transparent;
+  color: inherit; text-decoration: none;
+}
+.side .nav a:hover { background: var(--panel-2); border-color: var(--border); }
+.side .nav a.active { background: var(--panel); border-color: var(--border); }
+
+/* Footer inside the mobile menu for theme toggle and auth controls */
+.side-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
